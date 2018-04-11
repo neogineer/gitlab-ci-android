@@ -18,6 +18,8 @@ RUN apt-get -qq update && \
     apt-get install -qqy --no-install-recommends \
       bzip2 \
       curl \
+      nodejs \
+      npm \
       git-core \
       html2text \
       openjdk-8-jdk \
@@ -28,6 +30,8 @@ RUN apt-get -qq update && \
       lib32z1 \
       unzip \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+RUN npm install -g appcenter-cli
 
 RUN rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
