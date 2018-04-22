@@ -8,8 +8,9 @@
 FROM ubuntu:17.10
 MAINTAINER Achraf Amil <achraf.amil@gmail.com>
 
-ENV VERSION_SDK_TOOLS "3859397"
+ENV CLOUD_SDK_VERSION 198.0.0
 
+ENV VERSION_SDK_TOOLS "3859397"
 ENV ANDROID_HOME "/sdk"
 ENV PATH "$PATH:${ANDROID_HOME}/tools"
 ENV DEBIAN_FRONTEND noninteractive
@@ -27,6 +28,12 @@ RUN apt-get -qq update && \
       lib32ncurses5 \
       lib32z1 \
       unzip \
+      gcc \
+      python-dev \
+      python-setuptools \
+      apt-transport-https \
+      lsb-release \
+      openssh-client \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
 RUN echo "deb http://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
