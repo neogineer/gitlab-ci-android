@@ -6,7 +6,7 @@
 #
 
 FROM ubuntu:17.10
-MAINTAINER Jan Grewe <jan@faked.org>
+MAINTAINER Achraf Amil <achraf.amil@gmail.com>
 
 ENV VERSION_SDK_TOOLS "3859397"
 
@@ -18,8 +18,6 @@ RUN apt-get -qq update && \
     apt-get install -qqy --no-install-recommends \
       bzip2 \
       curl \
-      nodejs \
-      npm \
       git-core \
       html2text \
       openjdk-8-jdk \
@@ -31,7 +29,10 @@ RUN apt-get -qq update && \
       unzip \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
-RUN npm install -g appcenter-cli
+RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update -y && apt-get install google-cloud-sdk -y
 
 RUN rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
